@@ -1,4 +1,4 @@
-import { tourRouter } from './toursRouter.js';
+import { toursRouter } from './toursRouter.js';
 import { usersRouter } from './usersRouter.js';
 
-export { tourRouter, usersRouter };
+export { toursRouter, usersRouter };

@@ -1,3 +1,5 @@
 import requestTime from './requestTime.js';
+import checkId from './checkId.js';
+import checkBody from './checkBody.js';
 
-export { requestTime };
+export { requestTime, checkId, checkBody };

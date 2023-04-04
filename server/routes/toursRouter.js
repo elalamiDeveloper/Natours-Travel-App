@@ -1,5 +1,6 @@
 import express from 'express';
 
+import { checkId, checkBody } from '../middlewares/index.js';
 import {
   getAllTours,
   createTour,
@@ -10,12 +11,13 @@ import {
 
 const router = express.Router();
 
-router.route('/').get(getAllTours).post(createTour);
+router.param('id', checkId);
 
+router.route('/').get(getAllTours).post(checkBody, createTour);
 router
   .route('/:id')
   .get(getTourById)
   .patch(updateTourById)
   .delete(deleteTourById);
 
-export { router as tourRouter };
+export { router as toursRouter };

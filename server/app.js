@@ -2,7 +2,7 @@ import express from 'express';
 import morgan from 'morgan';
 
 import { requestTime } from './middlewares/index.js';
-import { tourRouter, usersRouter } from './routes/index.js';
+import { toursRouter, usersRouter } from './routes/index.js';
 
 const app = express();
 
@@ -12,10 +12,7 @@ app.use(express.json());
 app.use(requestTime);
 
 // ROUTES
-app.use('/api/v1/tours', tourRouter);
+app.use('/api/v1/tours', toursRouter);
 app.use('/api/v1/users', usersRouter);
 
-const port = 3000;
-app.listen(port, () => {
-  console.log(`App running on port ${port}...`);
-});
+export default app;

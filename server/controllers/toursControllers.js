@@ -22,7 +22,7 @@ const createTour = (req, res) => {
 
   tours.push(newTour);
   fs.writeFile(
-    `${__dirname}/data/json/tours-simple.json`,
+    `${__dirname}/../data/json/tours-simple.json`,
     JSON.stringify(tours),
     (err) => {
       res.status(201).json({
@@ -36,13 +36,6 @@ const createTour = (req, res) => {
 const getTourById = (req, res) => {
   const tour = tours.find((tour) => tour.id === +req.params.id);
 
-  if (!tour) {
-    return res.status(404).json({
-      status: 'fail',
-      message: 'Invalid id',
-    });
-  }
-
   res.status(200).json({
     status: 'success',
     data: { tour },
@@ -50,14 +43,6 @@ const getTourById = (req, res) => {
 };
 
 const updateTourById = (req, res) => {
-  const id = +req.params.id;
-  if (id >= tours.length) {
-    return res.status(404).json({
-      status: 'fail',
-      message: 'Invalid id',
-    });
-  }
-
   res.status(200).json({
     status: 'success',
     message: 'Update Tour',
@@ -65,14 +50,6 @@ const updateTourById = (req, res) => {
 };
 
 const deleteTourById = (req, res) => {
-  const id = +req.params.id;
-  if (id >= tours.length) {
-    return res.status(404).json({
-      status: 'fail',
-      message: 'Invalid id',
-    });
-  }
-
   res.status(200).json({
     status: 'success',
     message: 'Delete Tour',
