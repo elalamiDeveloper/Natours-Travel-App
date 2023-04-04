@@ -1,23 +1,19 @@
-import fs from 'fs';
-import { dirname } from 'path';
-import { fileURLToPath } from 'url';
-
 import express from 'express';
+import morgan from 'morgan';
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
+import { requestTime } from './middlewares/index.js';
+import { tourRouter, usersRouter } from './routes/index.js';
+
 const app = express();
 
-const tours = JSON.parse(
-  fs.readFileSync(`${__dirname}/data/json/tours-simple.json`, 'utf-8')
-);
+// MIDDLEWARES
+app.use(morgan('dev'));
+app.use(express.json());
+app.use(requestTime);
 
-app.get('/api/v1/tours', (req, res) => {
-  res.status(200).json({
-    status: 'success',
-    result: tours.length,
-    data: { tours },
-  });
-});
+// ROUTES
+app.use('/api/v1/tours', tourRouter);
+app.use('/api/v1/users', usersRouter);
 
 const port = 3000;
 app.listen(port, () => {
