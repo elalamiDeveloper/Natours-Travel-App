@@ -1,16 +1,22 @@
+import fs from 'fs';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+
 import express from 'express';
 
+const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
 
-app.get('/', (req, res) => {
-  res.status(200).json({
-    app: 'NATOURS',
-    message: 'Hello from the server side!',
-  });
-});
+const tours = JSON.parse(
+  fs.readFileSync(`${__dirname}/data/json/tours-simple.json`, 'utf-8')
+);
 
-app.post('/', (req, res) => {
-  res.send('You can post to this endpoint...');
+app.get('/api/v1/tours', (req, res) => {
+  res.status(200).json({
+    status: 'success',
+    result: tours.length,
+    data: { tours },
+  });
 });
 
 const port = 3000;
