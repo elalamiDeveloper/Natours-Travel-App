@@ -7,7 +7,7 @@ import { toursRouter, usersRouter } from './routes/index.js';
 const app = express();
 
 // MIDDLEWARES
-app.use(morgan('dev'));
+if (process.env.NODE_ENV === 'development') app.use(morgan('dev'));
 app.use(express.json());
 app.use(requestTime);
 
