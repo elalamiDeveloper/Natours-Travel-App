@@ -3,7 +3,6 @@ dotenv.config();
 
 import connectDB from './data.js';
 
-// I use async/await because i can't call dotenv.config() before importing app with modules type
 const startServer = async () => {
   const { default: app } = await import('./app.js');
   const dataBaseUrl = process.env.DATABASE_URL.replace(
