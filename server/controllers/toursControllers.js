@@ -2,7 +2,8 @@ import Tour from '../models/tourModel.js';
 
 const getAllTours = async (req, res) => {
   try {
-    const tours = await Tour.find();
+    const query = Tour.find(req.query);
+    const tours = await query;
 
     res.status(200).json({
       status: 'success',
@@ -12,15 +13,11 @@ const getAllTours = async (req, res) => {
   } catch (err) {
     res.status(404).json({
       status: 'fail',
-      data: { message: err.message },
+      data: {
+        message: err.message,
+      },
     });
   }
-
-  res.status(200).json({
-    status: 'success',
-    requestedAt: req.time,
-    data: { tours: 'tours' },
-  });
 };
 
 const createTour = async (req, res) => {
