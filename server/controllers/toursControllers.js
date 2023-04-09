@@ -1,38 +1,14 @@
 import Tour from '../models/tourModel.js';
+import { APIFeatures } from '../utils/index.js';
 
 const getAllTours = async (req, res) => {
   try {
-    // FILTRING
-    let query = Tour.find(req.query);
-
-    // SORTING
-    if (req.query.sort) {
-      const sortFields = req.query.sort.split(',').join(' ');
-      query = query.sort(sortFields);
-    } else {
-      query = query.sort('-createdAt');
-    }
-
-    // SELECTED FIELDS
-    if (req.query.fields) {
-      const fields = req.query.fields.split(',').join(' ');
-      query = query.select(fields);
-    } else {
-      query = query.select('-__v');
-    }
-
-    // PAGINATION
-    const page = req.query.page || 1;
-    const limit = req.query.limit || 5;
-    const skip = (page - 1) * limit;
-    query = query.skip(skip).limit(limit);
-
-    if (req.query.page) {
-      const numTours = await Tour.countDocuments();
-      if (skip >= numTours) throw new Error('This page does not exist');
-    }
-
-    const tours = await query;
+    const features = new APIFeatures(Tour.find(), req.query)
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
+    const tours = await features.query;
 
     res.status(200).json({
       status: 'success',
@@ -117,4 +93,44 @@ const deleteTourById = async (req, res) => {
   }
 };
 
-export { getAllTours, createTour, getTourById, updateTourById, deleteTourById };
+const getTourStats = async (req, res) => {
+  try {
+    const stats = await Tour.aggregate([
+      {
+        $match: { ratingsAverage: { $gte: 4.5 } },
+      },
+      {
+        $group: {
+          _id: { $toUpper: '$difficulty' },
+          numTours: { $sum: 1 },
+          numRating: { $sum: '$ratingsQuantity' },
+          avgRating: { $avg: '$ratingsAverage' },
+          avgPrice: { $avg: '$price' },
+          minPrice: { $min: '$price' },
+          maxPrice: { $max: '$price' },
+        },
+      },
+      {
+        $sort: {
+          avgPrice: 1,
+        },
+      },
+    ]);
+
+    res.status(200).json({ status: 'success', data: { stats } });
+  } catch (err) {
+    res.status(404).json({
+      status: 'fail',
+      message: err.message,
+    });
+  }
+};
+
+export {
+  getAllTours,
+  createTour,
+  getTourById,
+  updateTourById,
+  deleteTourById,
+  getTourStats,
+};
