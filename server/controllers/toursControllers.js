@@ -2,10 +2,10 @@ import Tour from '../models/tourModel.js';
 
 const getAllTours = async (req, res) => {
   try {
-    // Filtring
+    // FILTRING
     let query = Tour.find(req.query);
 
-    // Sorting
+    // SORTING
     if (req.query.sort) {
       const sortFields = req.query.sort.split(',').join(' ');
       query = query.sort(sortFields);
@@ -13,12 +13,23 @@ const getAllTours = async (req, res) => {
       query = query.sort('-createdAt');
     }
 
-    // Select Fields
+    // SELECTED FIELDS
     if (req.query.fields) {
       const fields = req.query.fields.split(',').join(' ');
       query = query.select(fields);
     } else {
       query = query.select('-__v');
+    }
+
+    // PAGINATION
+    const page = req.query.page || 1;
+    const limit = req.query.limit || 5;
+    const skip = (page - 1) * limit;
+    query = query.skip(skip).limit(limit);
+
+    if (req.query.page) {
+      const numTours = await Tour.countDocuments();
+      if (skip >= numTours) throw new Error('This page does not exist');
     }
 
     const tours = await query;

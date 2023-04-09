@@ -1,5 +1,6 @@
 import express from 'express';
 
+import { aliasTopTours } from '../middlewares/index.js';
 import {
   getAllTours,
   createTour,
@@ -9,6 +10,8 @@ import {
 } from '../controllers/toursControllers.js';
 
 const router = express.Router();
+
+router.route('/top-5-cheap').get(aliasTopTours, getAllTours);
 
 router.route('/').get(getAllTours).post(createTour);
 router
