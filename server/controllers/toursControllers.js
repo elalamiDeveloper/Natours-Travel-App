@@ -2,12 +2,23 @@ import Tour from '../models/tourModel.js';
 
 const getAllTours = async (req, res) => {
   try {
-    let query = Tour.find(req.query).sort('-createdAt');
+    // Filtring
+    let query = Tour.find(req.query);
 
     // Sorting
     if (req.query.sort) {
       const sortFields = req.query.sort.split(',').join(' ');
       query = query.sort(sortFields);
+    } else {
+      query = query.sort('-createdAt');
+    }
+
+    // Select Fields
+    if (req.query.fields) {
+      const fields = req.query.fields.split(',').join(' ');
+      query = query.select(fields);
+    } else {
+      query = query.select('-__v');
     }
 
     const tours = await query;
