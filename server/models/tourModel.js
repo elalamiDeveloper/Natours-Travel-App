@@ -11,10 +11,10 @@ const tourSchema = new mongoose.Schema(
       trim: true,
       maxLength: [40, 'A tour name must have less or equal than 40 characters'],
       minLength: [10, 'A tour name must have more or equal than 10 characters'],
-      validate: [
-        validator.isAlpha,
-        'Tour name must only contain alpha characters',
-      ],
+      // validate: [
+      //   validator.isAlpha,
+      //   'Tour name must only contain alpha characters',
+      // ],
     },
 
     duration: {
@@ -135,7 +135,6 @@ tourSchema.pre('aggregate', function (next) {
     $match: { secretTour: { $ne: true } },
   });
 
-  console.log(this.pipeline());
   next();
 });
 

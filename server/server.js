@@ -13,8 +13,8 @@ const startServer = async () => {
   const port = process.env.PORT || 3000;
 
   await connectDB(dataBaseUrl);
-  if (process.argv[2] === '--import') importToursToDB();
-  if (process.argv[2] === '--delete') deleteToursfromDB();
+  if (process.argv[2] === '--import-tours') importToursToDB();
+  if (process.argv[2] === '--delete-tours') deleteToursfromDB();
   app.listen(port, () => {
     console.log(`App running on port ${port}...`);
   });

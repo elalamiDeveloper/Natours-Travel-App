@@ -7,8 +7,8 @@
   "scripts": {
     "start": "nodemon server.js",
     "start:prod": "NODE_ENV=production nodemon server.js",
-    "import:tours": "node server.js --import",
-    "delete:tours": "node server.js --delete"
+    "import:tours": "node server.js --import-tours",
+    "delete:tours": "node server.js --delete-tours"
   },
   "author": "El Alami Idriss",
   "license": "ISC",

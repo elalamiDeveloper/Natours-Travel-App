@@ -10,6 +10,7 @@ const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/data/json/tours-simple.json`, 'utf-8')
 );
 
+// Connect to DB
 const connectDB = async (url) => {
   try {
     mongoose.set('strictQuery', true);
@@ -20,6 +21,7 @@ const connectDB = async (url) => {
   }
 };
 
+// ADD Data Tours
 const importToursToDB = async () => {
   try {
     await Tour.create(tours);
@@ -30,6 +32,7 @@ const importToursToDB = async () => {
   }
 };
 
+// DELETE Data Tours
 const deleteToursfromDB = async () => {
   try {
     await Tour.deleteMany();

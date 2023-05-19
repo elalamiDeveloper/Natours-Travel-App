@@ -28,7 +28,6 @@ const getAllTours = async (req, res) => {
 const getTourById = async (req, res) => {
   try {
     const id = req.params.id;
-    console.log(id);
     const tour = await Tour.findById(id);
 
     res.status(200).json({
@@ -44,7 +43,7 @@ const getTourStats = async (req, res) => {
   try {
     const stats = await Tour.aggregate([
       {
-        $match: { ratingsAverage: { $gte: 4.5 } },
+        $match: { ratingsAverage: { $gte: 1 } },
       },
       {
         $group: {
