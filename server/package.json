@@ -8,7 +8,8 @@
     "start": "nodemon server.js",
     "start:prod": "NODE_ENV=production nodemon server.js",
     "import:tours": "node server.js --import-tours",
-    "delete:tours": "node server.js --delete-tours"
+    "delete:tours": "node server.js --delete-tours",
+    "debug": "ndb server.js"
   },
   "author": "El Alami Idriss",
   "license": "ISC",
