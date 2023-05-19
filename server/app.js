@@ -18,9 +18,9 @@ app.use(requestTime);
 // ROUTES
 app.use('/api/v1/tours', toursRouter);
 app.use('/api/v1/users', usersRouter);
+app.all('*', urlError);
 
 // ERRORS Handling
-app.all('*', urlError);
 app.use(globalErrorHandler);
 
 export default app;
