@@ -17,7 +17,7 @@ const connectDB = async (url) => {
     await mongoose.connect(url);
     console.log('NATOURS DATA connected successfully...');
   } catch (err) {
-    console.error(err);
+    console.log('Connection DB failed => ', err.message);
   }
 };
 
@@ -28,7 +28,7 @@ const importToursToDB = async () => {
     console.log('Data saved successfully!!');
     process.exit();
   } catch (err) {
-    console.error(err.message);
+    console.error('importation DB failed: ', err.message);
   }
 };
 
@@ -39,7 +39,7 @@ const deleteToursfromDB = async () => {
     console.log('Data deleted successfully!!');
     process.exit();
   } catch (err) {
-    console.error(err.message);
+    console.error('Delete Data failed: ', err.message);
   }
 };
 
