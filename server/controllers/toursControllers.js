@@ -29,6 +29,46 @@ const getTourById = catchAsync(async (req, res, next) => {
   });
 });
 
+const createTour = catchAsync(async (req, res, next) => {
+  const newTour = await Tour.create(req.body);
+
+  res.status(201).json({
+    status: 'success',
+    data: { tour: newTour },
+  });
+});
+
+const updateTourById = catchAsync(async (req, res, next) => {
+  const id = req.params.id;
+  const updatedFields = req.body;
+  const tour = await Tour.findByIdAndUpdate(id, updatedFields, {
+    new: true,
+    runValidators: true,
+  });
+
+  if (!tour) return next(new AppError('No tour found with that ID', 404));
+
+  res.status(200).json({
+    status: 'success',
+    data: { tour },
+  });
+});
+
+const deleteTourById = catchAsync(async (req, res, next) => {
+  const id = req.params.id;
+  const tour = await Tour.findByIdAndDelete(id);
+
+  if (!tour) {
+    return next(new AppError('No tour found with this ID', 404));
+  }
+
+  res.status(204).json({
+    status: 'success',
+    data: null,
+    message: 'Tour deleted successfully...',
+  });
+});
+
 const getTourStats = catchAsync(async (req, res, next) => {
   const stats = await Tour.aggregate([
     {
@@ -93,41 +133,6 @@ const getMonthlyPlan = catchAsync(async (req, res, next) => {
   ]);
 
   res.status(200).json({ status: 'success', data: { plan } });
-});
-
-const createTour = catchAsync(async (req, res, next) => {
-  const newTour = await Tour.create(req.body);
-
-  res.status(201).json({
-    status: 'success',
-    data: { tour: newTour },
-  });
-});
-
-const updateTourById = catchAsync(async (req, res, next) => {
-  const id = req.params.id;
-  const updatedFields = req.body;
-  const tour = await Tour.findByIdAndUpdate(id, updatedFields, {
-    new: true,
-    runValidators: true,
-  });
-
-  if (!tour) return next(new AppError('No tour found with that ID', 404));
-
-  res.status(200).json({
-    status: 'success',
-    data: { tour },
-  });
-});
-
-const deleteTourById = catchAsync(async (req, res, next) => {
-  const id = req.params.id;
-  await Tour.findByIdAndDelete(id);
-
-  res.status(204).json({
-    status: 'success',
-    message: 'Tour deleted successfully...',
-  });
 });
 
 export {

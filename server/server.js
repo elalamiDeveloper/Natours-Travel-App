@@ -3,6 +3,12 @@ dotenv.config();
 
 import { connectDB, importToursToDB, deleteToursfromDB } from './data.js';
 
+process.on('uncaughtException', (err) => {
+  console.log(err.name, err.message);
+  console.log('UNCAUGHT EXCEPTION! Shutting down...');
+  process.exit();
+});
+
 const startServer = async () => {
   const { default: app } = await import('./app.js');
   const dataBaseUrl = process.env.DATABASE_URL.replace(
@@ -25,11 +31,5 @@ startServer();
 process.on('unhandledRejection', (err) => {
   console.log(err.name, err.message);
   console.log('UNHANDLED REJECTION! Shutting down...');
-  process.exit();
-});
-
-process.on('uncaughtException', (err) => {
-  console.log(err.name, err.message);
-  console.log('UNCAUGHT EXCEPTION! Shutting down...');
   process.exit();
 });

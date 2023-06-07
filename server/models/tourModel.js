@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 import slugify from 'slugify';
-import validator from 'validator';
 
 const tourSchema = new mongoose.Schema(
   {
@@ -11,10 +10,6 @@ const tourSchema = new mongoose.Schema(
       trim: true,
       maxLength: [40, 'A tour name must have less or equal than 40 characters'],
       minLength: [10, 'A tour name must have more or equal than 10 characters'],
-      // validate: [
-      //   validator.isAlpha,
-      //   'Tour name must only contain alpha characters',
-      // ],
     },
 
     duration: {
@@ -113,10 +108,10 @@ tourSchema.virtual('durationWeeks').get(function () {
 });
 
 // DOCUMENT MIDDLEWARE before save() and create()
-// tourSchema.pre('save', function (next) {
-//   this.slug = slugify(this.name, { lower: true });
-//   next();
-// });
+tourSchema.pre('save', function (next) {
+  this.slug = slugify(this.name, { lower: true });
+  next();
+});
 
 // tourSchema.post('save', function (doc, next) {
 //   console.log(doc);
