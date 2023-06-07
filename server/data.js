@@ -7,7 +7,7 @@ import Tour from './models/tourModel.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const tours = JSON.parse(
-  fs.readFileSync(`${__dirname}/data/json/tours-simple.json`, 'utf-8')
+  fs.readFileSync(`${__dirname}/data/json/tours.json`, 'utf-8')
 );
 
 // Connect to DB

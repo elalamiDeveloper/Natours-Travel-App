@@ -6,6 +6,8 @@ import {
   getUserById,
   updateUserById,
   deleteUserById,
+  updateMe,
+  deleteMe,
 } from '../controllers/usersControllers.js';
 import {
   signup,
